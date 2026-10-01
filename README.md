@@ -1,158 +1,135 @@
-# wacrm — CRM Template for WhatsApp
+# Sea View WhatsApp
 
-> Self-hostable CRM template for WhatsApp® — shared inbox, contacts,
-> sales pipelines, broadcasts, and no-code automations. Fork it, brand
-> it, host it.
+WhatsApp inbox, contacts, broadcasts and automations for **Sea View Primary
+School** staff, built and maintained by [CloseTag](https://closetag.co.za).
 
-<p align="center">
-  <a href="https://www.hostinger.com/web-apps-hosting">
-    <img src="./.github/assets/hostinger-deploy.png" alt="Ship your Node.js app in one click — Deploy to Hostinger" width="900">
-  </a>
-</p>
+It runs on the official WhatsApp Business (Meta Cloud) API, the same number
+the school's existing parent chatbot answers on. Where the chatbot is a
+self-service menu (hours, calendar, latest newsletter PDF, grade
+subscriptions), this app is the staff-facing side: a shared inbox several
+people can work from, a contact list with tags and custom fields, template
+broadcasts with delivery tracking, and no-code automations.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-violet.svg)](./LICENSE)
-[![CI](https://github.com/ArnasDon/wacrm/actions/workflows/ci.yml/badge.svg)](https://github.com/ArnasDon/wacrm/actions/workflows/ci.yml)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org)
-[![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20Auth-3ecf8e?logo=supabase)](https://supabase.com)
-[![Stars](https://img.shields.io/github/stars/ArnasDon/wacrm?style=social)](https://github.com/ArnasDon/wacrm/stargazers)
+## Where this came from
 
-The marketing site and self-host docs live in a separate repo:
-[ArnasDon/wacrm-site](https://github.com/ArnasDon/wacrm-site)
-([wacrm.tech](https://wacrm.tech)). This repo is the product —
-clone or fork it to run your own CRM.
+This codebase started as a fork of [wacrm](https://github.com/ArnasDon/wacrm)
+(MIT, by Arnas Donauskas), taken at upstream commit `c3f8b3f` on 2026-10-01.
+The LICENSE keeps the original copyright notice, as MIT requires, with
+CloseTag's notice added for the Sea View modifications.
 
-## What you get out of the box
+What changed in the conversion to a Sea View-owned codebase:
 
-- **Shared inbox** on the official WhatsApp Business API — multiple
-  agents working one number, per-conversation assignment, status, and
-  notes.
-- **Contacts + tags + custom fields**, CSV import, deduplication.
-- **Sales pipelines** (Kanban) with deals linked to conversations.
-- **Broadcasts** with Meta-approved templates, delivery + read
-  tracking, per-recipient variable substitution.
-- **No-code automations** — triggers on inbound messages, new
-  contacts, keywords, or schedule; conditional branches, waits,
-  tags, webhooks. Visual builder.
-- **Real-time dashboard** — response times, daily volume, pipeline
-  value, cross-module activity feed.
-- **Team accounts** — invite teammates by link, role-based access
-  (owner / admin / agent / viewer), ownership transfer. Every install
-  is account-scoped, so one shared inbox can be staffed by a whole
-  team. Solo use stays single-user with zero setup.
-- **Account management** — email, password, avatar, global sign-out.
+- `src/lib/brand.ts` is the single place that names the app, the
+  organisation, the public site, the support email and the brand colours.
+  Every user-facing string, the `<title>` template, the favicon and the
+  invite-link fallback read from it.
+- A `maroon` colour theme (school maroon `#610018` with gold `#fec913`
+  highlights) is the default. The upstream palettes remain selectable.
+- Upstream template scaffolding was removed: issue templates, CODEOWNERS,
+  code of conduct, security policy, contributing guide, changelog, Hostinger
+  marketing assets and the default Next.js SVGs.
+- Package identity, repository links and keywords point at this fork.
 
-## Why fork this?
-
-This is a **template**, not a product. Forking means you get:
-
-- **Full ownership** — your code, your Supabase project, your domain,
-  your data. No SaaS lock-in, no seat pricing, no trust dance.
-- **Full customisation** — add the fields your team needs, remove the
-  modules you don't, redesign anything. The stack is boring on
-  purpose (Next.js + Supabase + Tailwind) so the learning curve is
-  short.
-- **Zero ops to start** — [Hostinger](https://www.hostinger.com/web-apps-hosting)
-  Managed Node.js deploys a fork in a few clicks. No Docker, no
-  Kubernetes, no infra team needed.
-  ([See below ↓](#-deploy-on-hostinger-recommended))
-- **Real security primitives** — token encryption (AES-256-GCM), RLS
-  on every table, HMAC-verified webhooks, CSP, rate limiting, CI
-  typecheck/build on every PR.
-
-Not a framework. Not an SDK. A concrete, working CRM you can stand up
-in an afternoon and make yours.
-
-## Quick start
-
-```bash
-# Fork on GitHub first: https://github.com/ArnasDon/wacrm → Fork
-git clone https://github.com/<your-username>/wacrm.git
-cd wacrm
-npm install
-cp .env.local.example .env.local   # fill in Supabase + Meta creds
-npm run dev
-```
-
-Open <http://localhost:3000>. You'll be redirected to `/login` (or
-`/dashboard` if already signed in).
-
-## 🚀 Deploy on Hostinger (recommended)
-
-<p align="center">
-  <a href="https://www.hostinger.com/web-apps-hosting">
-    <img src="./.github/assets/hostinger-deploy.png" alt="Ship your Node.js app in one click — Deploy to Hostinger" width="1000">
-  </a>
-</p>
-<p align="center">
-  <a href="https://wacrm.tech/docs/deployment-hostinger">
-    <img src="https://img.shields.io/badge/Step--by--step_guide-wacrm.tech%2Fdocs-111?style=for-the-badge" alt="Step-by-step guide" height="44">
-  </a>
-</p>
-
-**wacrm is built to run on [Hostinger](https://www.hostinger.com/web-apps-hosting).**
-It's the path we test, document, and recommend — and the fastest way
-to get a production-grade CRM live without owning a VPS or a
-Kubernetes cluster.
-
-### Why Hostinger?
-
-| | |
-|---|---|
-| **One-click Git deploy** | Connect your fork, push to `main`, Hostinger builds and ships it. No SSH, no Docker, no CI to wire up — this repo's own `main` deploys this way. |
-| **Managed Node.js** | Next.js 16 (App Router, server actions, ISR) runs out of the box on [Premium, Business, and Cloud](https://www.hostinger.com/web-apps-hosting) shared plans. You don't manage Node versions, processes, or reverse proxies. |
-| **Free SSL + free domain** | Automatic Let's Encrypt on your custom domain (or a free one included with annual plans). HTTPS is on by default — required for the WhatsApp Business webhook. |
-| **Global CDN + LiteSpeed** | Static assets cached at the edge, dynamic routes served from LiteSpeed. Snappy dashboards out of the box, no Cloudflare setup required. |
-| **Env vars + logs in hPanel** | Set `SUPABASE_*`, `WHATSAPP_*`, and `ENCRYPTION_KEY` from the panel — no `.env` on the server. Live application logs in the same UI. |
-| **DDoS protection + daily backups** | Built-in, no add-ons. The webhook endpoint is a public target — having protection at the edge matters. |
-| **Cheaper than a VPS** | Plans start at a few dollars a month — order-of-magnitude less than a comparable managed Node.js host, and you don't pay extra for the database (that's Supabase). |
-| **24/7 human support** | Live chat support in 20+ languages — useful when your CRM is the thing your team relies on to talk to customers. |
-
-### The 60-second version
-
-1. **Fork** this repo on GitHub.
-2. In **hPanel → Websites → Create**, pick **Node.js** and connect
-   your fork.
-3. Paste your Supabase + Meta env vars into hPanel.
-4. Push to `main`. Hostinger builds and serves it. Done.
-
-Full walkthrough with screenshots:
-**[wacrm.tech/docs/deployment-hostinger](https://wacrm.tech/docs/deployment-hostinger)**.
-
-> _Note: wacrm is MIT-licensed and runs anywhere Node.js does
-> (Vercel, Railway, your own VPS). Hostinger is recommended, not
-> required._
-
-## Documentation
-
-Full self-host documentation — Supabase migrations, WhatsApp Business
-API config, and production deploy — lives at
-**[wacrm.tech/docs](https://wacrm.tech/docs)**
-(source: [ArnasDon/wacrm-site](https://github.com/ArnasDon/wacrm-site)).
-
-Key pages:
-- [Getting started](https://wacrm.tech/docs/getting-started)
-- [Supabase setup](https://wacrm.tech/docs/supabase-setup)
-- [WhatsApp setup](https://wacrm.tech/docs/whatsapp-setup)
-- [Environment variables](https://wacrm.tech/docs/environment-variables)
-- [Deploy on Hostinger](https://wacrm.tech/docs/deployment-hostinger)
-- [Architecture](https://wacrm.tech/docs/architecture)
-- [Troubleshooting](https://wacrm.tech/docs/troubleshooting)
+Nothing in the WhatsApp, Supabase or automation logic was changed in that
+step. Behavioural customisation for the school comes next (see below).
 
 ## Stack
 
-- **App** — Next.js 16 (App Router), React 19, TypeScript, Tailwind v4.
-- **Data** — Supabase (Postgres + Auth + Storage + RLS).
-- **WhatsApp** — Meta Cloud API (official WhatsApp Business API).
+| Layer | Technology |
+|---|---|
+| App | Next.js 16 (App Router), React 19, TypeScript 6, Tailwind 4, shadcn/ui |
+| Data | Supabase (Postgres, Auth, Storage, RLS); migrations in `supabase/migrations` |
+| WhatsApp | Meta Cloud API; HMAC-verified webhook at `/api/whatsapp/webhook` |
+| Tests | Vitest (`npm test`), ESLint, `tsc --noEmit`, CI on push and PR |
 
-## Contributing
+## Local development
 
-This is a template, not a collaborative product — the expected flow is
-fork → customise → deploy, **not** upstream contribution. Bug reports
-and security issues are welcome; feature PRs often belong in your fork
-rather than here. Details in
-[`CONTRIBUTING.md`](./CONTRIBUTING.md) and
-[`.github/SECURITY.md`](./.github/SECURITY.md).
+Requires Node 20 or newer (the monorepo uses 22).
+
+```bash
+npm install
+cp .env.local.example .env.local   # fill in Supabase + Meta values
+npm run dev                        # http://localhost:3000
+```
+
+Useful scripts:
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Environment variables are documented inline in `.env.local.example`.
+`ENCRYPTION_KEY` and `META_APP_SECRET` are read at module load, so the
+app refuses to start without them.
+
+## How this fits next to the existing Sea View bot
+
+The parent chatbot lives in the monorepo's `backend/` Lambda
+(`lib/whatsapp.py`, `lib/whatsapp_subscribers.py`,
+`whatsapp/messages/payload.py`) and is driven by the school's admin
+dashboard. Both systems want to talk to the same Meta app and phone number,
+and **Meta delivers webhooks to one callback URL per app**. That is the
+first design decision to make before this app goes live:
+
+1. **Lambda stays the webhook owner and forwards.** The existing `/webhook`
+   handler keeps answering the self-service menu and relays every inbound
+   event to this app's `/api/whatsapp/webhook` so conversations land in the
+   inbox. Least disruptive; the bot keeps working unchanged.
+2. **This app owns the webhook and the bot is rebuilt as a Flow.** The
+   visual flow builder covers menus, keyword triggers and document replies.
+   Grade subscriptions would move from the DynamoDB subscriber table into
+   contact tags here. Cleaner long term, more work up front.
+3. **Separate phone numbers.** Simplest technically, but parents would see
+   two school numbers.
+
+Until that is decided, run this app against a Meta test number so the
+production bot is untouched.
+
+Other overlaps to reconcile later:
+
+- Broadcasts: the admin dashboard sends template broadcasts to DynamoDB
+  subscribers; this app sends them to Supabase contacts. One list should win.
+- Staff accounts: the admin dashboard has its own JWT auth; this app uses
+  Supabase Auth with owner/admin/agent/viewer roles. Invite staff by link
+  from Settings, Members.
+
+## Deployment
+
+Any Node host works (the upstream project documents Hostinger Managed
+Node.js; Vercel and a plain VPS also work). The monorepo's other apps are on
+AWS, so AWS Amplify Hosting is the natural fit when the time comes. Whatever
+the host, set:
+
+- the Supabase keys and `SUPABASE_SERVICE_ROLE_KEY`
+- `ENCRYPTION_KEY` (generate once, never rotate casually; rotating orphans
+  every stored WhatsApp token)
+- `META_APP_SECRET`
+- `NEXT_PUBLIC_SITE_URL` to the CRM's own public URL so invite links are
+  correct
+- `AUTOMATION_CRON_SECRET` plus a 5-minute pinger if automations use Wait
+  steps
+
+Apply `supabase/migrations/*.sql` in order to a fresh Supabase project
+before the first deploy.
+
+## Pulling upstream fixes
+
+The fork point is recorded above. To cherry-pick upstream bug fixes:
+
+```bash
+git remote add upstream https://github.com/ArnasDon/wacrm.git   # once
+git fetch upstream
+git log --oneline c3f8b3f..upstream/main
+git cherry-pick <sha>
+```
+
+Expect conflicts in the files this fork rebranded (`layout.tsx`,
+`sidebar.tsx`, `themes.ts`, `globals.css`, the settings strings). Prefer
+cherry-picks over a full merge so the Sea View changes stay intact.
 
 ## License
 
-[MIT](./LICENSE). Fork it, brand it, host it.
+MIT. See `LICENSE` for both copyright notices.

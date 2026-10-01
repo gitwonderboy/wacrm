@@ -7,6 +7,7 @@ import {
   verifyPhoneNumber,
 } from '@/lib/whatsapp/meta-api'
 import { encrypt, decrypt } from '@/lib/whatsapp/encryption'
+import { BRAND } from '@/lib/brand'
 
 /**
  * Resolve the caller's account_id from their profile. Inlined here
@@ -123,7 +124,7 @@ export async function GET() {
           reason: 'token_corrupted',
           needs_reset: true,
           message:
-            'The stored access token cannot be decrypted with the current ENCRYPTION_KEY. This usually means the key changed, or it differs between environments (local vs Hostinger vs Vercel). Click "Reset Configuration" below, then re-save.',
+            'The stored access token cannot be decrypted with the current ENCRYPTION_KEY. This usually means the key changed, or it differs between environments (local vs production). Click "Reset Configuration" below, then re-save.',
         },
         { status: 200 }
       )
@@ -204,7 +205,7 @@ export async function POST(request: Request) {
     }
 
     // Reject if another account has already claimed this phone_number_id.
-    // wacrm is single-tenant-per-WhatsApp-number — letting two accounts
+    // This app is single-tenant-per-WhatsApp-number — letting two accounts
     // bind the same number causes the webhook's `.single()` lookup to
     // throw PGRST116 ("multiple rows"), silently dropping every
     // inbound message. See issue #136. Post-multi-user we key on
@@ -229,7 +230,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            'This WhatsApp phone number is already linked to another account on this instance. Each phone number can only be connected to one wacrm user.',
+            `This WhatsApp phone number is already linked to another account on this instance. Each phone number can only be connected to one ${BRAND.appName} account.`,
         },
         { status: 409 }
       )
@@ -298,7 +299,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             error:
-              'Two-step verification PIN is required to subscribe this number to wacrm. ' +
+              `Two-step verification PIN is required to subscribe this number to ${BRAND.appName}. ` +
               'Set a 6-digit PIN in Meta WhatsApp Manager → Phone Numbers → Two-step verification, then paste it below.',
           },
           { status: 400 }

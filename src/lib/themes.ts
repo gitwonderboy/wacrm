@@ -8,12 +8,18 @@
  *
  * Adding a new theme is a two-step change:
  *   1. Append the new `html[data-theme="<id>"]` block in globals.css
- *      with every token from an existing theme (use violet as the
+ *      with every token from an existing theme (use maroon as the
  *      shape reference).
  *   2. Add an entry below. The order here drives the picker grid.
+ *
+ * "maroon" is the Sea View Primary brand theme and the default. The
+ * upstream palettes are kept so staff can pick a different accent.
  */
 
+import { BRAND } from "@/lib/brand";
+
 export const THEME_IDS = [
+  "maroon",
   "violet",
   "emerald",
   "cobalt",
@@ -23,9 +29,9 @@ export const THEME_IDS = [
 
 export type ThemeId = (typeof THEME_IDS)[number];
 
-export const DEFAULT_THEME: ThemeId = "violet";
+export const DEFAULT_THEME: ThemeId = "maroon";
 
-export const STORAGE_KEY = "wacrm.theme";
+export const STORAGE_KEY = `${BRAND.storagePrefix}.theme`;
 
 export interface ThemeMeta {
   id: ThemeId;
@@ -42,9 +48,15 @@ export interface ThemeMeta {
 
 export const THEMES: ReadonlyArray<ThemeMeta> = [
   {
+    id: "maroon",
+    name: "Sea View Maroon",
+    tagline: "The default - the school's maroon with gold highlights.",
+    swatch: "oklch(0.36 0.15 10)",
+  },
+  {
     id: "violet",
     name: "Violet",
-    tagline: "The default — confident, slightly playful.",
+    tagline: "Confident, slightly playful.",
     swatch: "oklch(0.526 0.247 293)",
   },
   {

@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { ThemeProvider } from "@/hooks/use-theme";
+import { BRAND } from "@/lib/brand";
 import { DEFAULT_THEME, STORAGE_KEY, THEME_IDS } from "@/lib/themes";
 
 const inter = Inter({
@@ -13,10 +14,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "wacrm",
-    template: "%s — wacrm",
+    default: BRAND.appName,
+    template: `%s - ${BRAND.appName}`,
   },
-  description: "Self-hostable CRM template for WhatsApp.",
+  description: BRAND.description,
   robots: {
     index: false,
     follow: false,
@@ -38,7 +39,7 @@ export const viewport: Viewport = {
 
 // Inline boot script — runs before React hydrates so the user's
 // chosen theme is on the <html> element before first paint. Without
-// this every page load flashes the default Violet for a frame before
+// this every page load flashes the default Maroon for a frame before
 // the React tree mounts and applies the picked theme.
 //
 // Kept dependency-free (no imports, no JSX) — must be a string the

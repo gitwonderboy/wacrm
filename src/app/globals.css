@@ -51,14 +51,19 @@
 /* ============================================================
  * COLOR THEMES
  *
- * 5 dark themes sharing structure, swapping only the primary
+ * 6 dark themes sharing structure, swapping only the primary
  * accent (and a tiny hue rotation on the slate base). Switched
  * at runtime by setting `document.documentElement.dataset.theme`
  * — see ThemeProvider + the inline boot script in layout.tsx.
  *
- * `:root` mirrors Violet so default visitors render correctly
- * before JS runs. `[data-theme="violet"]` is included for the
+ * `:root` mirrors Maroon (the Sea View Primary brand theme, see
+ * src/lib/brand.ts) so default visitors render correctly before
+ * JS runs. `[data-theme="maroon"]` is included for the
  * explicit-select path (settings UI sets it after a pick).
+ * Maroon #610018 is lifted to oklch(0.36 0.15 10) for the accent
+ * so it stays readable on the dark slate base, with the lighter
+ * brand maroon #8b1a3a as the hover; gold #fec913 is the ring and
+ * second chart colour.
  *
  * The three `--primary-*` extras (hover / soft / soft-2) are
  * new — used for hovered primary buttons and tinted-primary
@@ -70,6 +75,44 @@
  * ============================================================ */
 
 :root,
+html[data-theme="maroon"] {
+  --background: oklch(0.13 0.008 20);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.18 0.008 20);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.18 0.008 20);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.36 0.15 10);
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-hover: oklch(0.44 0.16 10);
+  --primary-soft: oklch(0.36 0.15 10 / 0.18);
+  --primary-soft-2: oklch(0.36 0.15 10 / 0.3);
+  --secondary: oklch(0.22 0.008 20);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.22 0.008 20);
+  --muted-foreground: oklch(0.65 0.01 20);
+  --accent: oklch(0.22 0.008 20);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.28 0.008 20);
+  --input: oklch(0.28 0.008 20);
+  --ring: oklch(0.86 0.18 90);
+  --chart-1: oklch(0.52 0.18 10);
+  --chart-2: oklch(0.86 0.18 90);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.16 0.008 20);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.36 0.15 10);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.22 0.008 20);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.28 0.008 20);
+  --sidebar-ring: oklch(0.86 0.18 90);
+}
+
 html[data-theme="violet"] {
   --background: oklch(0.13 0.01 260);
   --foreground: oklch(0.985 0 0);

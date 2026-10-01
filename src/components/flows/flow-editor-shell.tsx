@@ -25,6 +25,7 @@ import { FlowEditorProvider } from "./flow-editor-state";
 import { EditorHeader } from "./header";
 import { ValidationPanel } from "./validation-panel";
 import { cn } from "@/lib/utils";
+import { BRAND } from "@/lib/brand";
 import type { FlowRow, FlowNodeRow } from "@/lib/flows/types";
 
 /**
@@ -37,7 +38,7 @@ const MOBILE_BREAKPOINT = "(max-width: 767px)";
 
 type View = "canvas" | "list";
 
-const STORAGE_KEY = "wacrm.flowEditor.view";
+const STORAGE_KEY = `${BRAND.storagePrefix}.flowEditor.view`;
 
 interface Props {
   initialFlow: FlowRow;

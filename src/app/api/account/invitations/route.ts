@@ -20,6 +20,7 @@
 import { NextResponse } from "next/server";
 
 import { requireRole, toErrorResponse } from "@/lib/auth/account";
+import { BRAND } from "@/lib/brand";
 import {
   clampExpiryDays,
   generateInviteToken,
@@ -63,16 +64,16 @@ import {
 //
 //   When `ALLOWED_INVITE_HOSTS` is set (comma-separated hostnames),
 //   we validate the derived host against the list. Anything not
-//   on the list falls through to the wacrm.tech fallback with a
+//   on the list falls through to the BRAND.siteUrl fallback with a
 //   loud console.warn. Operators who care about this attack
 //   surface should set this to their canonical hostnames; everyone
 //   else gets today's permissive behavior.
 //
-// Previous implementation hard-defaulted to `https://wacrm.tech`
-// (the docs/marketing site, a different repo). Forks that didn't
-// set `NEXT_PUBLIC_SITE_URL` got invite links pointing at the
-// marketing site, which 404s on `/join/<token>`. This resolution
-// chain removes the foot-gun.
+// The upstream template hard-defaulted to its marketing site, so a
+// deployment without `NEXT_PUBLIC_SITE_URL` got invite links that
+// 404'd on `/join/<token>`. This resolution chain removes the
+// foot-gun; the final fallback is the school site from brand.ts and
+// should never be reached on a correctly configured deployment.
 function parseAllowedHosts(): readonly string[] | null {
   const raw = process.env.ALLOWED_INVITE_HOSTS?.trim();
   if (!raw) return null;
@@ -128,10 +129,12 @@ function getBaseUrl(request: Request): string {
     );
   } else {
     console.warn(
-      "[POST /api/account/invitations] could not derive base URL from request; falling back to marketing domain",
+      "[POST /api/account/invitations] could not derive base URL from request; falling back to BRAND.siteUrl",
     );
   }
-  return "https://wacrm.tech";
+  // Last resort: the organisation's public site (src/lib/brand.ts).
+  // Set NEXT_PUBLIC_SITE_URL on the deployment so this never fires.
+  return BRAND.siteUrl;
 }
 
 const MAX_LABEL_LEN = 80;

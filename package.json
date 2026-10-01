@@ -1,28 +1,26 @@
 {
-  "name": "wacrm",
-  "version": "0.2.2",
+  "name": "seaview-whatsapp-crm",
+  "version": "1.0.0",
   "private": true,
-  "description": "Self-hostable CRM template for WhatsApp built on Next.js and Supabase — shared inbox, contacts, sales pipelines, broadcasts, and no-code automations.",
+  "description": "WhatsApp inbox, contacts, broadcasts and automations for Sea View Primary School staff. Forked from the MIT-licensed wacrm template; maintained by CloseTag.",
   "license": "MIT",
-  "author": "Arnas Donauskas",
-  "homepage": "https://github.com/ArnasDon/wacrm",
+  "author": "CloseTag <admin@closetag.co.za>",
+  "homepage": "https://github.com/gitwonderboy/wacrm",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArnasDon/wacrm.git"
+    "url": "git+https://github.com/gitwonderboy/wacrm.git"
   },
   "bugs": {
-    "url": "https://github.com/ArnasDon/wacrm/issues"
+    "url": "https://github.com/gitwonderboy/wacrm/issues"
   },
   "keywords": [
-    "crm",
     "whatsapp",
     "whatsapp-business-api",
+    "school",
+    "seaview-primary",
     "nextjs",
     "supabase",
-    "automation",
-    "broadcast",
-    "self-hosted",
-    "template"
+    "closetag"
   ],
   "engines": {
     "node": ">=20.0.0"
